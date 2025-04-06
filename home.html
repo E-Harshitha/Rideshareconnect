@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rideshare Connect</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FF6F61;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: orange;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background-color: #e65c00;
+        }
+        .carousel-container {
+            width: 60%;
+            margin: 60px auto 20px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .carousel {
+            display: flex;
+            width: 400%;
+            animation: slide 16s infinite;
+        }
+        .carousel img {
+            width: 25%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        @keyframes slide {
+            0% { transform: translateX(0%); }
+            25% { transform: translateX(-25%); }
+            50% { transform: translateX(-50%); }
+            75% { transform: translateX(-75%); }
+            100% { transform: translateX(0%); }
+        }
+        .welcome-text {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .grid-item {
+            background: white;
+            color: #FF6F61;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .grid-item:hover {
+            transform: scale(1.1);
+        }
+        .grid-item a {
+            text-decoration: none;
+            color: #FF6F61;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">← Back</a>
+
+    <div class="carousel-container">
+        <div class="carousel">
+            <img src="https://www.shutterstock.com/shutterstock/photos/2424980263/display_1500/stock-vector-carsharing-service-in-smartphone-people-rent-car-automobile-sharing-rental-booking-in-phone-app-2424980263.jpg" alt="Car Sharing">
+            <img src="https://img.freepik.com/free-vector/taxi-app-concept_23-2148496627.jpg" alt="Taxi App">
+            <img src="https://img.freepik.com/free-vector/taxi-app-concept-illustration_52683-36028.jpg" alt="Ride App">
+            <img src="https://media.istockphoto.com/id/1742862025/vector/mobile-phone-navigation-map-ride-share-carpooling-travel-driving-mobile-phone.jpg?s=612x612&w=0&k=20&c=ijmj9S3hfN1dx_IH5VUWrOEFP5DQ7pzwvbu0S7AFclk=" alt="Navigation Map">
+        </div>
+    </div>
+    <div class="welcome-text">Welcome to Rideshare Connect</div>
+    <div class="grid-container">
+        <div class="grid-item">
+            <a href="email.html">Driver Details</a>
+        </div>
+        <div class="grid-item">
+            <a href="email.html">Passenger Details</a>
+        </div>
+    </div>
+</body>
+</html>

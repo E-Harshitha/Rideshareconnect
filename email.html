@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ride Share Connect</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      font-size: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      margin: 0 5px;
+      border-radius: 5px;
+    }
+
+    .active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .ride-card {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .center-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      margin: 0 auto 30px;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #f4f8ff;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align: center;">🚗 Ride Share Connect</h1>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('driver')">Driver</div>
+    <div class="tab" onclick="showTab('passenger')">Passenger</div>
+  </div>
+
+  <!-- Driver Tab -->
+  <div id="driver" class="tab-content show">
+    <div class="center-container">
+      <h2>Driver Registration</h2>
+      <input id="driverName" placeholder="Name">
+      <input id="driverEmail" type="email" placeholder="Email">
+      <select id="driverGender">
+        <option value="">Select Gender</option>
+        <option value="Female">Female</option>
+      </select>
+      <input id="driverAge" type="number" placeholder="Age">
+      <input id="driverFrom" placeholder="From">
+      <input id="driverTo" placeholder="To">
+      <input id="driverDate" type="date">
+      <input id="driverTime" type="time">
+      <button onclick="registerDriver()">Register as Driver</button>
+    </div>
+
+    <h3>Passenger Requests</h3>
+    <div id="passengerRequests"></div>
+  </div>
+
+  <!-- Passenger Tab -->
+  <div id="passenger" class="tab-content">
+    <div class="center-container">
+      <h2>Passenger Booking</h2>
+      <input id="passengerName" placeholder="Name">
+      <input id="passengerEmail" type="email" placeholder="Email">
+      <select id="passengerGender">
+        <option value="">Select Gender</option>
+        <option value="Female">Female</option>
+      </select>
+      <input id="passengerAge" type="number" placeholder="Age">
+      <input id="passengerFrom" placeholder="From">
+      <input id="passengerTo" placeholder="To">
+      <input id="passengerDate" type="date">
+      <input id="passengerTime" type="time">
+      <button onclick="requestRide()">Request Ride</button>
+    </div>
+
+    <h3>Available Drivers</h3>
+    <div id="driverList"></div>
+  </div>
+
+  <script>
+    function showTab(tabName) {
+      document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("show"));
+      document.getElementById(tabName).classList.add("show");
+
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add("active");
+
+      if (tabName === "driver") displayPassengerRequests();
+      if (tabName === "passenger") displayDrivers();
+    }
+
+    function registerDriver() {
+      const driver = {
+        name: driverName.value,
+        email: driverEmail.value,
+        gender: driverGender.value,
+        age: parseInt(driverAge.value),
+        from: driverFrom.value,
+        to: driverTo.value,
+        date: driverDate.value,
+        time: driverTime.value
+      };
+
+      if (driver.gender !== "Female" || driver.age < 21 || driver.age > 59) {
+        alert("Only female drivers aged 21–59 allowed.");
+        return;
+      }
+
+      let drivers = JSON.parse(localStorage.getItem("drivers") || "[]");
+      drivers.push(driver);
+      localStorage.setItem("drivers", JSON.stringify(drivers));
+      alert("Driver registered!");
+      displayPassengerRequests();
+    }
+
+    function requestRide() {
+      const passenger = {
+        name: passengerName.value,
+        email: passengerEmail.value,
+        gender: passengerGender.value,
+        age: parseInt(passengerAge.value),
+        from: passengerFrom.value,
+        to: passengerTo.value,
+        date: passengerDate.value,
+        time: passengerTime.value
+      };
+
+      if (passenger.gender !== "Female" || passenger.age < 21 || passenger.age > 59) {
+        alert("Only female passengers aged 21–59 allowed.");
+        return;
+      }
+
+      let passengers = JSON.parse(localStorage.getItem("passengers") || "[]");
+      passengers.push(passenger);
+      localStorage.setItem("passengers", JSON.stringify(passengers));
+      alert("Ride requested!");
+      displayDrivers();
+    }
+
+    function displayDrivers() {
+      const from = passengerFrom.value.toLowerCase();
+      const to = passengerTo.value.toLowerCase();
+      const drivers = JSON.parse(localStorage.getItem("drivers") || "[]");
+
+      const driverList = document.getElementById("driverList");
+      driverList.innerHTML = "";
+
+      drivers.filter(d => d.from.toLowerCase() === from && d.to.toLowerCase() === to)
+        .forEach(driver => {
+          const otp = Math.floor(1000 + Math.random() * 9000);
+          const mailLink = `mailto:${driver.email}?subject=Ride%20Confirmation&body=Hi ${driver.name}, I (${passengerName.value}) accept your ride from ${driver.from} to ${driver.to}. My OTP: ${otp}`;
+
+          driverList.innerHTML += `
+            <div class="ride-card">
+              <p><strong>Name:</strong> ${driver.name}</p>
+              <p><strong>From:</strong> ${driver.from}</p>
+              <p><strong>To:</strong> ${driver.to}</p>
+              <a href="${mailLink}">Send Ride Confirmation (OTP: ${otp})</a>
+            </div>`;
+        });
+    }
+
+    function displayPassengerRequests() {
+      const passengers = JSON.parse(localStorage.getItem("passengers") || "[]");
+      const requestDiv = document.getElementById("passengerRequests");
+      requestDiv.innerHTML = "";
+
+      passengers.forEach(p => {
+        const otp = Math.floor(1000 + Math.random() * 9000);
+        const mailLink = `mailto:${p.email}?subject=Ride%20Approved&body=Hi ${p.name}, I accept your ride request. Your OTP is: ${otp}`;
+        requestDiv.innerHTML += `
+          <div class="ride-card">
+            <p>${p.name} wants to go from ${p.from} to ${p.to}</p>
+            <a href="${mailLink}">Accept Ride and Send OTP</a>
+          </div>`;
+      });
+    }
+  </script>
+
+</body>
+</html>

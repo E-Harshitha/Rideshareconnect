@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ff6f61;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: orange;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-container {
+            width: 350px;
+            margin: 60px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        h2 {
+            color: #ff6f61;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #ff6f61;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ff6f61;
+            border-radius: 5px;
+        }
+
+        .signup-btn {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .signup-btn:hover {
+            background-color: #e55d50;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-link a {
+            color: #ff6f61;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .driver-fields {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button -->
+    <a href="home.html" class="back-button">Back</a>
+
+    <div class="signup-container">
+        <h2>Signup</h2>
+
+        <form>
+            <div class="input-group">
+                <label for="userType">Signup as</label>
+                <select id="userType" onchange="toggleDriverFields()">
+                    <option value="Passenger">Passenger</option>
+                    <option value="Driver">Driver</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <!-- Driver-specific fields -->
+            <div id="driverFields" class="driver-fields">
+                <div class="input-group">
+                    <label for="vehicle">Vehicle Model</label>
+                    <input type="text" id="vehicle" placeholder="Enter vehicle model">
+                </div>
+
+                <div class="input-group">
+                    <label for="license">License Number</label>
+                    <input type="text" id="license" placeholder="Enter license number">
+                </div>
+            </div>
+
+            <button type="submit" class="signup-btn">Signup</button>
+        </form>
+
+        <!-- Login Page Link -->
+        <div class="login-link">
+            Already have an account? <a href="index.html">Login</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleDriverFields() {
+            let userType = document.getElementById("userType").value;
+            let driverFields = document.getElementById("driverFields");
+
+            if (userType === "Driver") {
+                driverFields.style.display = "block";
+            } else {
+                driverFields.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
